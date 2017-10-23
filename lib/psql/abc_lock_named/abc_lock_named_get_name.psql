@@ -1,0 +1,14 @@
+/**
+ * Selects the name of a named lock.
+ *
+ * @param p_lnn_id The ID of the named lock.
+ */
+create procedure abc_lock_named_get_name(in p_lnn_id @abc_lock_named_name.lnn_id%type@)
+modifies sql data
+-- type: singleton1
+begin
+  select lnn_name
+  from   ABC_LOCK_NAMED_NAME
+  where  lnn_id = p_lnn_id
+  ;
+end

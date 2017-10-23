@@ -1,0 +1,32 @@
+language: php
+php:
+  - '7.0'
+  - '7.1'
+  - nightly
+  
+sudo: true
+
+addons:
+  mariadb: 10.2
+
+before_install:
+  - mysql --version
+  - mysql -u root < test/ddl/0010_create_database.sql
+  - mysql -u root < test/ddl/0020_create_user.sql
+  - mysql -u root test < test/ddl/0100_create_tables.sql
+  - mysql -u root test < lib/ddl/0100_create_tables.sql
+  - mysql -u root test < test/ddl/0300_abc_lock_named.sql
+  - mysql -u root -e "set global binlog_format = 'row';"
+  - mysql -u root -e "set global log_bin_trust_function_creators = 1;"
+  
+install:
+  - composer self-update
+  - cp test/C.txt test/C.php
+  - composer update
+  - ./bin/stratum stratum test/etc/stratum.cfg
+    
+script: 
+  - ./bin/phing unit
+
+after_script:
+  - mv test/C.php test/C.txt
