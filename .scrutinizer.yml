@@ -4,7 +4,7 @@ build:
             - cp test/C.txt test/C.php
 
     environment:
-        mysql: 10.2
+        mariadb: 10.2
 
     tests:
         before:
