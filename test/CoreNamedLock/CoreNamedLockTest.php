@@ -31,6 +31,33 @@ class CoreNamedLockTest extends TestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test get ID of named lock.
+   */
+  public function testGetId1()
+  {
+    $lock = new CoreNamedLock();
+
+    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+    $id = $lock->getId();
+
+    self::assertSame(C::LNM_ID_ABC_NAMED_LOCK1, $id);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test get ID of named lock without lock.
+   */
+  public function testGetId2()
+  {
+    $lock = new CoreNamedLock();
+
+    $id = $lock->getId();
+
+    self::assertNull($id);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test get name of named lock.
    */
   public function testGetName1()
