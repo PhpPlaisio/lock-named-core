@@ -1,0 +1,25 @@
+build:
+    dependencies:
+        before:
+            - cp test/C.txt test/C.php
+
+    environment:
+        mysql: 5.6
+
+    tests:
+        before:
+            - mysql --version
+            - mysql -u root < test/ddl/0010_create_database.sql
+            - mysql -u root < test/ddl/0020_create_user.sql
+            - mysql -u root test < test/ddl/0100_create_tables.sql
+            - mysql -u root test < lib/ddl/0100_create_tables.sql
+            - mysql -u root test < lib/ddl/0300_abc_lock_named.sql
+            - ./bin/stratum stratum test/etc/stratum.cfg
+
+        override:
+            -
+                command: './bin/phing unit'
+                coverage:
+                    file: 'test/coverage.xml'
+                    format: 'php-clover'
+
