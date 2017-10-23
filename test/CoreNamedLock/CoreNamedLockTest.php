@@ -31,6 +31,37 @@ class CoreNamedLockTest extends TestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test lock is exclusive.
+   */
+  public function testExclusiveLock()
+  {
+    // Start helper process
+    $descriptors = [0 => ["pipe", "r"],
+                    1 => ["pipe", "w"]];
+
+    $process = proc_open(__DIR__.'/../test-exclusive-lock-helper.php', $descriptors, $pipes);
+
+    // Acquire lock.
+    $lock = new CoreNamedLock();
+    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+
+    // Tell helper process to acquire lock too.
+    fwrite($pipes[0], "\n");
+
+    // Do something.
+    sleep(4);
+
+    // Release lock.
+    Abc::$DL->commit();
+
+    // Read lock waiting time from child process.
+    $time = fgets($pipes[1]);
+
+    self::assertGreaterThan(3, $time);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test get ID of named lock.
    */
   public function testGetId1()
@@ -107,6 +138,7 @@ class CoreNamedLockTest extends TestCase
     Abc::$companyResolver = new UniCompanyResolver(C::CMP_ID_ABC);
 
     Abc::$DL->connect('localhost', 'test', 'test', 'test');
+    Abc::$DL->begin();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
