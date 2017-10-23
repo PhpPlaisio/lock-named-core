@@ -22,9 +22,9 @@ class CoreNamedLockTest extends TestCase
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
 
     self::assertTrue(true);
   }
@@ -33,7 +33,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test lock is exclusive.
    */
-  public function testExclusiveLock()
+  public function testExclusiveLock1()
   {
     // Start helper process
     $descriptors = [0 => ["pipe", "r"],
@@ -43,7 +43,7 @@ class CoreNamedLockTest extends TestCase
 
     // Acquire lock.
     $lock = new CoreNamedLock();
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -62,16 +62,49 @@ class CoreNamedLockTest extends TestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test locks are company isolated.
+   */
+  public function testExclusiveLock2()
+  {
+    Abc::$companyResolver = new UniCompanyResolver(C::CMP_ID_SYS);
+
+    // Start helper process
+    $descriptors = [0 => ["pipe", "r"],
+                    1 => ["pipe", "w"]];
+
+    $process = proc_open(__DIR__.'/../test-exclusive-lock-helper.php', $descriptors, $pipes);
+
+    // Acquire lock.
+    $lock = new CoreNamedLock();
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+
+    // Tell helper process to acquire lock too.
+    fwrite($pipes[0], "\n");
+
+    // Do something.
+    sleep(4);
+
+    // Release lock.
+    Abc::$DL->commit();
+
+    // Read lock waiting time from child process.
+    $time = fgets($pipes[1]);
+
+    self::assertEmpty(0, $time);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test get ID of named lock.
    */
   public function testGetId1()
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
     $id = $lock->getId();
 
-    self::assertSame(C::LNM_ID_ABC_NAMED_LOCK1, $id);
+    self::assertSame(C::LNN_ID_NAMED_LOCK1, $id);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -95,7 +128,7 @@ class CoreNamedLockTest extends TestCase
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
     $name = $lock->getName();
 
     self::assertSame('named_lock1', $name);
@@ -120,10 +153,11 @@ class CoreNamedLockTest extends TestCase
    */
   public function testMultipleLocks()
   {
-    $lock = new CoreNamedLock();
+    $lock1 = new CoreNamedLock();
+    $lock1->getLock(C::LNN_ID_NAMED_LOCK1);
 
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
-    $lock->getLock(C::LNM_ID_ABC_NAMED_LOCK2);
+    $lock2 = new CoreNamedLock();
+    $lock2->getLock(C::LNN_ID_NAMED_LOCK2);
 
     self::assertTrue(true);
   }
@@ -147,6 +181,7 @@ class CoreNamedLockTest extends TestCase
    */
   protected function tearDown()
   {
+    Abc::$DL->commit();
     Abc::$DL->disconnect();
   }
 

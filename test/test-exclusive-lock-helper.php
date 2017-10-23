@@ -25,7 +25,7 @@ $read = fgets($handle);
 
 // Acquire lock.
 $lock = new CoreNamedLock();
-$lock->getLock(C::LNM_ID_ABC_NAMED_LOCK1);
+$lock->getLock(C::LNN_ID_NAMED_LOCK1);
 
 // End time.
 $time1 = time();

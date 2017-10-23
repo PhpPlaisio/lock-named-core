@@ -17,7 +17,7 @@ class CoreNamedLock implements NamedLock
    *
    * @var int|null
    */
-  private $lnmId;
+  private $lnnId;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -25,7 +25,7 @@ class CoreNamedLock implements NamedLock
    */
   public function getId()
   {
-    return $this->lnmId;
+    return $this->lnnId;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class CoreNamedLock implements NamedLock
   {
     Abc::$DL->abcLockNamedGetLock(Abc::$companyResolver->getCmpId(), $id);
 
-    $this->lnmId = $id;
+    $this->lnnId = $id;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -45,9 +45,9 @@ class CoreNamedLock implements NamedLock
    */
   public function getName()
   {
-    if ($this->lnmId===null) return null;
+    if ($this->lnnId===null) return null;
 
-    return Abc::$DL->abcLockNamedGetName(Abc::$companyResolver->getCmpId(), $this->lnmId);
+    return Abc::$DL->abcLockNamedGetName($this->lnnId);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
