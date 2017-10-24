@@ -35,4 +35,4 @@
 
 #  License
 
-The project is licensed under the MIT license.
+This project is licensed under the MIT license.
