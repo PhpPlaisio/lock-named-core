@@ -57,7 +57,7 @@ class CoreNamedLockTest extends TestCase
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
 
-    self::assertGreaterThan(3, $time);
+    self::assertGreaterThanOrEqual(3, $time);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ class CoreNamedLockTest extends TestCase
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
 
-    self::assertGreaterThan(3, $time);
+    self::assertGreaterThanOrEqual(3, $time);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ class CoreNamedLockTest extends TestCase
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
 
-    self::assertEmpty(0, $time);
+    self::assertEquals(0, $time);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
