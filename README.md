@@ -1,4 +1,4 @@
-# ABC-Framework: Core Named Locks
+# ABC-Framework: Core Named Lock
 
 <table>
 <thead>
@@ -31,3 +31,8 @@
 </tr>
 </tbody>
 </table>
+
+
+#  License
+
+The project is licensed under the MIT license.
