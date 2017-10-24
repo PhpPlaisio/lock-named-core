@@ -31,7 +31,7 @@ class CoreNamedLockTest extends TestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test lock is exclusive.
+   * Test lock is exclusive and released on commit.
    */
   public function testExclusiveLock1()
   {
@@ -62,9 +62,40 @@ class CoreNamedLockTest extends TestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test locks are company isolated.
+   * Test lock is exclusive and released on rollback.
    */
   public function testExclusiveLock2()
+  {
+    // Start helper process
+    $descriptors = [0 => ["pipe", "r"],
+                    1 => ["pipe", "w"]];
+
+    $process = proc_open(__DIR__.'/../test-exclusive-lock-helper.php', $descriptors, $pipes);
+
+    // Acquire lock.
+    $lock = new CoreNamedLock();
+    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+
+    // Tell helper process to acquire lock too.
+    fwrite($pipes[0], "\n");
+
+    // Do something.
+    sleep(4);
+
+    // Release lock.
+    Abc::$DL->rollback();
+
+    // Read lock waiting time from child process.
+    $time = fgets($pipes[1]);
+
+    self::assertGreaterThan(3, $time);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test locks are company isolated.
+   */
+  public function testExclusiveLock3()
   {
     Abc::$companyResolver = new UniCompanyResolver(C::CMP_ID_SYS);
 
