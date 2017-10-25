@@ -8,6 +8,7 @@ use SetBased\Abc\C;
 use SetBased\Abc\CompanyResolver\UniCompanyResolver;
 use SetBased\Abc\Lock\CoreNamedLock;
 use SetBased\Abc\Test\TestDataLayer;
+use SetBased\Exception\LogicException;
 
 /**
  * Test cases for CoreNamedLock.
@@ -141,14 +142,14 @@ class CoreNamedLockTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Test get ID of named lock without lock.
+   *
+   * @expectedException LogicException
    */
   public function testGetId2()
   {
     $lock = new CoreNamedLock();
 
-    $id = $lock->getId();
-
-    self::assertNull($id);
+    $lock->getId();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -168,14 +169,14 @@ class CoreNamedLockTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Test get name of named lock without lock.
+   *
+   * @expectedException LogicException
    */
   public function testGetName2()
   {
     $lock = new CoreNamedLock();
 
-    $name = $lock->getName();
-
-    self::assertNull($name);
+    $lock->getName();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

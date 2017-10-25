@@ -3,6 +3,7 @@
 namespace SetBased\Abc\Lock;
 
 use SetBased\Abc\Abc;
+use SetBased\Exception\LogicException;
 
 /**
  * Class for named locks that are released on commit or rollback.
@@ -36,6 +37,8 @@ class CoreNamedLock implements NamedLock
    */
   public function getId()
   {
+    $this->ensureHoldLock();
+
     return $this->lnnId;
   }
 
@@ -45,9 +48,21 @@ class CoreNamedLock implements NamedLock
    */
   public function getName()
   {
-    if ($this->lnnId===null) return null;
+    $this->ensureHoldLock();
 
     return Abc::$DL->abcLockNamedGetName($this->lnnId);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Throws an exception if this object was never used to hold a lock.
+   */
+  private function ensureHoldLock()
+  {
+    if ($this->lnnId===null)
+    {
+      throw new LogicException('No entity is locked');
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
