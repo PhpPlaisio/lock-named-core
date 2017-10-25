@@ -22,9 +22,9 @@ class CoreNamedLockTest extends TestCase
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
 
     self::assertTrue(true);
   }
@@ -43,7 +43,7 @@ class CoreNamedLockTest extends TestCase
 
     // Acquire lock.
     $lock = new CoreNamedLock();
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -74,7 +74,7 @@ class CoreNamedLockTest extends TestCase
 
     // Acquire lock.
     $lock = new CoreNamedLock();
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -107,7 +107,7 @@ class CoreNamedLockTest extends TestCase
 
     // Acquire lock.
     $lock = new CoreNamedLock();
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -132,7 +132,7 @@ class CoreNamedLockTest extends TestCase
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
     $id = $lock->getId();
 
     self::assertSame(C::LNN_ID_NAMED_LOCK1, $id);
@@ -159,7 +159,7 @@ class CoreNamedLockTest extends TestCase
   {
     $lock = new CoreNamedLock();
 
-    $lock->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
     $name = $lock->getName();
 
     self::assertSame('named_lock1', $name);
@@ -185,10 +185,10 @@ class CoreNamedLockTest extends TestCase
   public function testMultipleLocks()
   {
     $lock1 = new CoreNamedLock();
-    $lock1->getLock(C::LNN_ID_NAMED_LOCK1);
+    $lock1->acquireLock(C::LNN_ID_NAMED_LOCK1);
 
     $lock2 = new CoreNamedLock();
-    $lock2->getLock(C::LNN_ID_NAMED_LOCK2);
+    $lock2->acquireLock(C::LNN_ID_NAMED_LOCK2);
 
     self::assertTrue(true);
   }

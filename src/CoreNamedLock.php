@@ -23,20 +23,20 @@ class CoreNamedLock implements NamedLock
   /**
    * {@inheritdoc}
    */
-  public function getId()
+  public function acquireLock($id)
   {
-    return $this->lnnId;
+    Abc::$DL->abcLockNamedAcquireLock(Abc::$companyResolver->getCmpId(), $id);
+
+    $this->lnnId = $id;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * {@inheritdoc}
    */
-  public function getLock($id)
+  public function getId()
   {
-    Abc::$DL->abcLockNamedGetLock(Abc::$companyResolver->getCmpId(), $id);
-
-    $this->lnnId = $id;
+    return $this->lnnId;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

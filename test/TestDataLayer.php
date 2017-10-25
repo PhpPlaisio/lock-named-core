@@ -21,9 +21,9 @@ class TestDataLayer extends StaticDataLayer
    *
    * @return int
    */
-  public static function abcLockNamedGetLock($pCmpId, $pLnnId)
+  public static function abcLockNamedAcquireLock($pCmpId, $pLnnId)
   {
-    return self::executeNone('CALL abc_lock_named_get_lock('.self::quoteNum($pCmpId).','.self::quoteNum($pLnnId).')');
+    return self::executeNone('CALL abc_lock_named_acquire_lock('.self::quoteNum($pCmpId).','.self::quoteNum($pLnnId).')');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
