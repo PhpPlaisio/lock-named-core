@@ -1,11 +1,11 @@
 /*================================================================================*/
 /* DDL SCRIPT                                                                     */
 /*================================================================================*/
-/*  Title    :                                                                    */
+/*  Title    : ABC-Framework: Core Named Lock                                     */
 /*  FileName : abc-lock-named-core.ecm                                            */
 /*  Platform : MySQL 5.6                                                          */
-/*  Version  : Concept                                                            */
-/*  Date     : maandag 23 oktober 2017                                            */
+/*  Version  :                                                                    */
+/*  Date     : zaterdag 25 november 2017                                          */
 /*================================================================================*/
 /*================================================================================*/
 /* CREATE TABLES                                                                  */
@@ -43,4 +43,4 @@ ALTER TABLE ABC_LOCK_NAMED
 
 ALTER TABLE ABC_LOCK_NAMED
   ADD CONSTRAINT FK_ABC_LOCK_NAMED_AUT_COMPANY
-  FOREIGN KEY (cmp_id) REFERENCES AUT_COMPANY (cmp_id);
+  FOREIGN KEY (cmp_id) REFERENCES ABC_AUTH_COMPANY (cmp_id);

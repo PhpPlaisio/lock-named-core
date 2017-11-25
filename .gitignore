@@ -5,7 +5,7 @@
 /composer.lock
 /test/etc/columns.txt
 /test/etc/routines.json
-/test/DataLayer.php
+/test/TestDataLayer.php
 /test/report/
 /test/coverage.xml
 /test/C.php
