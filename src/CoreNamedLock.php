@@ -14,6 +14,13 @@ class CoreNamedLock implements NamedLock
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Time in seconds for waiting for a lock before giving up.
+   *
+   * @var int
+   */
+  public static $lockWaitTimeout = 1073741824;
+
+  /**
    * The ID of the lock.
    *
    * @var int|null
@@ -26,7 +33,7 @@ class CoreNamedLock implements NamedLock
    */
   public function acquireLock($id)
   {
-    Abc::$DL->abcLockNamedCoreAcquireLock(Abc::$companyResolver->getCmpId(), $id);
+    Abc::$DL->abcLockNamedCoreAcquireLock(Abc::$companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
 
     $this->lnnId = $id;
   }
