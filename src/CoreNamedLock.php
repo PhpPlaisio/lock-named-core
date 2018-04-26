@@ -1,5 +1,5 @@
 <?php
-//----------------------------------------------------------------------------------------------------------------------
+
 namespace SetBased\Abc\Lock;
 
 use SetBased\Abc\Abc;
@@ -26,7 +26,7 @@ class CoreNamedLock implements NamedLock
    */
   public function acquireLock($id)
   {
-    Abc::$DL->abcLockNamedAcquireLock(Abc::$companyResolver->getCmpId(), $id);
+    Abc::$DL->abcLockNamedCoreAcquireLock(Abc::$companyResolver->getCmpId(), $id);
 
     $this->lnnId = $id;
   }
@@ -50,7 +50,7 @@ class CoreNamedLock implements NamedLock
   {
     $this->ensureHoldLock();
 
-    return Abc::$DL->abcLockNamedGetName($this->lnnId);
+    return Abc::$DL->abcLockNamedCoreGetName($this->lnnId);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
