@@ -15,8 +15,10 @@ begin
   declare l_lnm_id                @abc_lock_named.lnm_id%type@;
   declare l_old_lock_wait_timeout int;
 
-  set l_old_lock_wait_timeout    = @@innodb_lock_wait_timeout;
-  set @@innodb_lock_wait_timeout = p_lock_wait_timeout;
+  if (p_lock_wait_timeout > 0) then
+    set l_old_lock_wait_timeout    = @@innodb_lock_wait_timeout;
+    set @@innodb_lock_wait_timeout = p_lock_wait_timeout;
+  end if;
 
   
   select lnm_id
@@ -35,5 +37,7 @@ begin
     ;
   end if;
 
-  set @@innodb_lock_wait_timeout = l_old_lock_wait_timeout;
+  if (p_lock_wait_timeout > 0) then
+    set @@innodb_lock_wait_timeout = l_old_lock_wait_timeout;
+  end if;
 end

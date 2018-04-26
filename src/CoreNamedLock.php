@@ -14,11 +14,12 @@ class CoreNamedLock implements NamedLock
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Time in seconds for waiting for a lock before giving up.
+   * The value for [innodb_lock_wait_timeout](https://mariadb.com/kb/en/library/xtradbinnodb-server-system-variables/#innodb_lock_wait_timeout).
+   * Set to -1 for using the current value of innodb_lock_wait_timeout.
    *
    * @var int
    */
-  public static $lockWaitTimeout = 1073741824;
+  public static $lockWaitTimeout = -1;
 
   /**
    * The ID of the lock.
