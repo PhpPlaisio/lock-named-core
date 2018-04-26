@@ -29,7 +29,7 @@ class CoreNamedLock implements NamedLock
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    */
   public function acquireLock($id)
   {
@@ -40,7 +40,7 @@ class CoreNamedLock implements NamedLock
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    */
   public function getId()
   {
@@ -51,7 +51,7 @@ class CoreNamedLock implements NamedLock
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    */
   public function getName()
   {
