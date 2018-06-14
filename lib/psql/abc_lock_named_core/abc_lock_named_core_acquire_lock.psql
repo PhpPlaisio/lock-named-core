@@ -4,7 +4,7 @@
  * @param p_cmp_id            The ID of the company (safeguard).
  * @param p_lnn_id            The ID of the named lock.
  * @param p_lock_wait_timeout Time in seconds for waiting for a lock before giving up. I.e. the value of 
-                              innodb_lock_wait_timeout.
+ *                            innodb_lock_wait_timeout.
  */
 create procedure abc_lock_named_core_acquire_lock(in p_cmp_id            @abc_lock_named.cmp_id%type@,
                                                   in p_lnn_id            @abc_lock_named.lnn_id%type@,

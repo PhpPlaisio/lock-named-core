@@ -32,7 +32,7 @@ class CoreNamedLock implements NamedLock
   /**
    * @inheritdoc
    */
-  public function acquireLock($id)
+  public function acquireLock(int $id): void
   {
     Abc::$DL->abcLockNamedCoreAcquireLock(Abc::$companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
 
@@ -43,7 +43,7 @@ class CoreNamedLock implements NamedLock
   /**
    * @inheritdoc
    */
-  public function getId()
+  public function getId(): int
   {
     $this->ensureHoldLock();
 
@@ -54,7 +54,7 @@ class CoreNamedLock implements NamedLock
   /**
    * @inheritdoc
    */
-  public function getName()
+  public function getName(): string
   {
     $this->ensureHoldLock();
 
@@ -65,7 +65,7 @@ class CoreNamedLock implements NamedLock
   /**
    * Throws an exception if this object was never used to hold a lock.
    */
-  private function ensureHoldLock()
+  private function ensureHoldLock(): void
   {
     if ($this->lnnId===null)
     {

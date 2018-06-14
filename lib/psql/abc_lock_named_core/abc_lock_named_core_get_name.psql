@@ -5,7 +5,8 @@
  */
 create procedure abc_lock_named_core_get_name(in p_lnn_id @abc_lock_named_name.lnn_id%type@)
 modifies sql data
--- type: singleton1
+-- type:   singleton1
+-- return: string
 begin
   select lnn_name
   from   ABC_LOCK_NAMED_NAME

@@ -1,5 +1,5 @@
 <?php
-//----------------------------------------------------------------------------------------------------------------------
+
 namespace SetBased\Abc\Test\CoreNamedLock;
 
 use PHPUnit\Framework\TestCase;
