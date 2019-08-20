@@ -9,7 +9,6 @@ use SetBased\Abc\C;
 use SetBased\Abc\CompanyResolver\UniCompanyResolver;
 use SetBased\Abc\Lock\CoreNamedLock;
 use SetBased\Abc\Test\TestDataLayer;
-use SetBased\Exception\LogicException;
 
 /**
  * Test cases for CoreNamedLock.
@@ -20,7 +19,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test locking twice (or more) the same named lock is possible.
    */
-  public function testDoubleLock()
+  public function testDoubleLock(): void
   {
     $lock = new CoreNamedLock();
 
@@ -35,7 +34,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test lock is exclusive and released on commit.
    */
-  public function testExclusiveLock1()
+  public function testExclusiveLock1(): void
   {
     // Start helper process
     $descriptors = [0 => ["pipe", "r"],
@@ -66,7 +65,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test lock is exclusive and released on rollback.
    */
-  public function testExclusiveLock2()
+  public function testExclusiveLock2(): void
   {
     // Start helper process
     $descriptors = [0 => ["pipe", "r"],
@@ -97,7 +96,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test locks are company isolated.
    */
-  public function testExclusiveLock3()
+  public function testExclusiveLock3(): void
   {
     Abc::$companyResolver = new UniCompanyResolver(C::CMP_ID_SYS);
 
@@ -130,7 +129,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test get ID of named lock.
    */
-  public function testGetId1()
+  public function testGetId1(): void
   {
     $lock = new CoreNamedLock();
 
@@ -143,13 +142,12 @@ class CoreNamedLockTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Test get ID of named lock without lock.
-   *
-   * @expectedException LogicException
    */
-  public function testGetId2()
+  public function testGetId2(): void
   {
     $lock = new CoreNamedLock();
 
+    $this->expectException(\LogicException::class);
     $lock->getId();
   }
 
@@ -157,7 +155,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test get name of named lock.
    */
-  public function testGetName1()
+  public function testGetName1(): void
   {
     $lock = new CoreNamedLock();
 
@@ -170,13 +168,12 @@ class CoreNamedLockTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Test get name of named lock without lock.
-   *
-   * @expectedException LogicException
    */
-  public function testGetName2()
+  public function testGetName2(): void
   {
     $lock = new CoreNamedLock();
 
+    $this->expectException(\LogicException::class);
     $lock->getName();
   }
 
@@ -184,7 +181,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Test multiple named locks are possible.
    */
-  public function testMultipleLocks()
+  public function testMultipleLocks(): void
   {
     $lock1 = new CoreNamedLock();
     $lock1->acquireLock(C::LNN_ID_NAMED_LOCK1);
@@ -199,7 +196,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Connects to the MySQL server and cleans the BLOB tables.
    */
-  protected function setUp()
+  protected function setUp(): void
   {
     Abc::$DL              = new TestDataLayer();
     Abc::$companyResolver = new UniCompanyResolver(C::CMP_ID_ABC);
@@ -212,7 +209,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * Disconnects from the MySQL server.
    */
-  protected function tearDown()
+  protected function tearDown(): void
   {
     Abc::$DL->commit();
     Abc::$DL->disconnect();
