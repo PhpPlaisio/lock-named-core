@@ -1,21 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Lock;
+namespace Plaisio\Lock;
 
-use SetBased\Abc\Abc;
+use Plaisio\Kernel\Nub;
 use SetBased\Exception\LogicException;
 
 /**
  * Class for named locks that are released on commit or rollback.
  *
- * The names of the locks are unique with respect to the schema of the data layer and company of ABC.
+ * The names of the locks are unique with respect to the schema of the data layer and company of Plaisio.
  */
 class CoreNamedLock implements NamedLock
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The value for [innodb_lock_wait_timeout](https://mariadb.com/kb/en/library/xtradbinnodb-server-system-variables/#innodb_lock_wait_timeout).
+   * The value for
+   * [innodb_lock_wait_timeout](https://mariadb.com/kb/en/library/xtradbinnodb-server-system-variables/#innodb_lock_wait_timeout).
    * Set to -1 for using the current value of innodb_lock_wait_timeout.
    *
    * @var int
@@ -35,7 +36,7 @@ class CoreNamedLock implements NamedLock
    */
   public function acquireLock(int $id): void
   {
-    Abc::$DL->abcLockNamedCoreAcquireLock(Abc::$companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
+    Nub::$DL->abcLockNamedCoreAcquireLock(Nub::$companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
 
     $this->lnnId = $id;
   }
@@ -59,7 +60,7 @@ class CoreNamedLock implements NamedLock
   {
     $this->ensureHoldLock();
 
-    return Abc::$DL->abcLockNamedCoreGetName($this->lnnId);
+    return Nub::$DL->abcLockNamedCoreGetName($this->lnnId);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

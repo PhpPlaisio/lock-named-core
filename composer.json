@@ -1,34 +1,32 @@
 {
-  "name": "setbased/abc-lock-named-core",
-  "description": "ABC-Framework: Core Named Lock",
+  "name": "plaisio/lock-named-core",
+  "description": "PhpPlaisio: Core Named Lock",
   "keywords": [
-    "ABC-Framework",
+    "PhpPlaisio",
     "Core",
-    "Lock",
-    "Named"
+    "Named Lock"
   ],
-  "type": "library",
   "license": "MIT",
   "require": {
     "php": ">=7.1.0",
-    "setbased/abc": "^0.10.10",
-    "setbased/abc-lock-named": "^2.0.0"
+    "plaisio/kernel": "^1.0.0",
+    "plaisio/lock-named": "^1.0.0"
   },
   "require-dev": {
     "phing/phing": "^2.0.0",
     "phpunit/phpunit": "^7.0.0 || ^8.0.0",
-    "setbased/abc-company-resolver-uni": "^2.0.0",
-    "setbased/php-stratum": "^4.0.0",
+    "plaisio/company-resolver-uni": "^1.0.0",
+    "setbased/php-stratum": "^5.0.0",
     "setbased/php-stratum-mysql": "^4.0.0"
   },
   "autoload": {
     "psr-4": {
-      "SetBased\\Abc\\Lock\\": "src/"
+      "Plaisio\\Lock\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "SetBased\\Abc\\Test\\": "test/"
+      "Plaisio\\Lock\\Test\\": "test/"
     },
     "classmap": [
       "test/C.php"
