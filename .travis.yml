@@ -22,7 +22,7 @@ before_install:
 install:
   - composer self-update
   - composer update
-  - ./bin/stratum stratum test/etc/stratum.cfg
+  - ./bin/stratum stratum test/etc/stratum.ini
 
 script:
   - ./bin/phing unit
