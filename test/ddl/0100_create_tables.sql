@@ -12,7 +12,7 @@ values( 1
 ,       'SYS'
 ,       'CMP_ID_SYS')
 ,      ( 2
-,       'ABC'
+,       'PLAISIO'
 ,       'CMP_ID_PLAISIO')
 ;
 

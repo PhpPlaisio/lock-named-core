@@ -36,7 +36,7 @@ class CoreNamedLock implements NamedLock
    */
   public function acquireLock(int $id): void
   {
-    Nub::$DL->abcLockNamedCoreAcquireLock(Nub::$companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
+    Nub::$nub->DL->abcLockNamedCoreAcquireLock(Nub::$nub->companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
 
     $this->lnnId = $id;
   }
@@ -60,7 +60,7 @@ class CoreNamedLock implements NamedLock
   {
     $this->ensureHoldLock();
 
-    return Nub::$DL->abcLockNamedCoreGetName($this->lnnId);
+    return Nub::$nub->DL->abcLockNamedCoreGetName($this->lnnId);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
