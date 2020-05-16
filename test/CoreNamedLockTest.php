@@ -5,8 +5,8 @@ namespace Plaisio\Lock\Test;
 
 use PHPUnit\Framework\TestCase;
 use Plaisio\C;
-use Plaisio\Kernel\Nub;
 use Plaisio\Lock\CoreNamedLock;
+use Plaisio\PlaisioKernel;
 
 /**
  * Test cases for CoreNamedLock.
@@ -17,7 +17,7 @@ class CoreNamedLockTest extends TestCase
   /**
    * The kernel.
    *
-   * @var Nub
+   * @var PlaisioKernel
    */
   protected $kernel;
 
@@ -27,7 +27,7 @@ class CoreNamedLockTest extends TestCase
    */
   public function testDoubleLock(): void
   {
-    $lock = new CoreNamedLock();
+    $lock = new CoreNamedLock($this->kernel);
 
     $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
     $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
@@ -51,7 +51,7 @@ class CoreNamedLockTest extends TestCase
     $process = proc_open($cmd, $descriptors, $pipes);
 
     // Acquire lock.
-    Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
+    $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -60,7 +60,7 @@ class CoreNamedLockTest extends TestCase
     sleep(4);
 
     // Release lock.
-    Nub::$nub->DL->commit();
+    $this->kernel->DL->commit();
 
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
@@ -83,7 +83,7 @@ class CoreNamedLockTest extends TestCase
     $process = proc_open($cmd, $descriptors, $pipes);
 
     // Acquire lock.
-    Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
+    $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -92,7 +92,7 @@ class CoreNamedLockTest extends TestCase
     sleep(4);
 
     // Release lock.
-    Nub::$nub->DL->rollback();
+    $this->kernel->DL->rollback();
 
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
@@ -117,7 +117,7 @@ class CoreNamedLockTest extends TestCase
     $process = proc_open($cmd, $descriptors, $pipes);
 
     // Acquire lock.
-    Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
+    $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
 
     // Tell helper process to acquire lock too.
     fwrite($pipes[0], "\n");
@@ -126,7 +126,7 @@ class CoreNamedLockTest extends TestCase
     sleep(4);
 
     // Release lock.
-    Nub::$nub->DL->commit();
+    $this->kernel->DL->commit();
 
     // Read lock waiting time from child process.
     $time = fgets($pipes[1]);
@@ -140,7 +140,7 @@ class CoreNamedLockTest extends TestCase
    */
   public function testGetId1(): void
   {
-    $lock = Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
+    $lock = $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
     $id   = $lock->getId();
 
     self::assertSame(C::LNN_ID_NAMED_LOCK1, $id);
@@ -152,7 +152,7 @@ class CoreNamedLockTest extends TestCase
    */
   public function testGetId2(): void
   {
-    $lock = new CoreNamedLock();
+    $lock = new CoreNamedLock($this->kernel);
 
     $this->expectException(\LogicException::class);
     $lock->getId();
@@ -164,8 +164,7 @@ class CoreNamedLockTest extends TestCase
    */
   public function testGetName1(): void
   {
-    $lock = new CoreNamedLock();
-    $lock->acquireLock(C::LNN_ID_NAMED_LOCK1);
+    $lock = $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
     $name = $lock->getName();
 
     self::assertSame('named_lock1', $name);
@@ -177,7 +176,7 @@ class CoreNamedLockTest extends TestCase
    */
   public function testGetName2(): void
   {
-    $lock = new CoreNamedLock();
+    $lock = new CoreNamedLock($this->kernel);
 
     $this->expectException(\LogicException::class);
     $lock->getName();
@@ -189,8 +188,8 @@ class CoreNamedLockTest extends TestCase
    */
   public function testMultipleLocks(): void
   {
-    $lock1 = Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
-    $lock2 = Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK2);
+    $lock1 = $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
+    $lock2 = $this->kernel->namedLock->create(C::LNN_ID_NAMED_LOCK2);
 
     self::assertTrue(true);
   }
@@ -210,8 +209,8 @@ class CoreNamedLockTest extends TestCase
    */
   protected function tearDown(): void
   {
-    Nub::$nub->DL->commit();
-    Nub::$nub->DL->disconnect();
+    $this->kernel->DL->commit();
+    $this->kernel->DL->disconnect();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

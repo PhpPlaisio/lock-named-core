@@ -1,26 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace Plaisio\Lock\Test;
+namespace Plaisio\Lock;
 
-use Plaisio\C;
-use Plaisio\CompanyResolver\CompanyResolver;
-use Plaisio\CompanyResolver\UniCompanyResolver;
+use Plaisio\PlaisioObject;
 
 /**
- * Kernel for testing purposes.
+ * Factory for creating named locks.
  */
-class TestKernelPlaisio extends TestKernelSys
+class CoreNamedLockFactory extends PlaisioObject implements NamedLockFactory
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the helper object for deriving the company.
-   *
-   * @return CompanyResolver
+   * @inheritDoc
    */
-  public function getCompany(): CompanyResolver
+  public function create(int $id): NamedLock
   {
-    return new UniCompanyResolver(C::CMP_ID_PLAISIO);
+    $lock = new CoreNamedLock($this);
+    $lock->acquireLock($id);
+
+    return $lock;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

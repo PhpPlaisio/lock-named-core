@@ -6,46 +6,35 @@ namespace Plaisio\Lock\Test;
 use Plaisio\C;
 use Plaisio\CompanyResolver\CompanyResolver;
 use Plaisio\CompanyResolver\UniCompanyResolver;
-use Plaisio\Kernel\Nub;
-use Plaisio\Lock\CoreNamedLock;
-use Plaisio\Lock\NamedLock;
+use Plaisio\Lock\CoreNamedLockFactory;
+use Plaisio\PlaisioKernel;
 use SetBased\Stratum\MySql\MySqlDefaultConnector;
 
 /**
  * Kernel for testing purposes.
  */
-class TestKernelSys extends Nub
+class TestKernelSys extends PlaisioKernel
 {
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Object constructor.
-   */
-  public function __construct()
-  {
-    parent::__construct();
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * @inheritdoc
-   */
-  public function createNamedLock(int $id): NamedLock
-  {
-    $lock = new CoreNamedLock();
-    $lock->acquireLock($id);
-
-    return $lock;
-  }
-
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Returns the helper object for deriving the company.
    *
    * @return CompanyResolver
    */
-  public function getCompanyResolver(): CompanyResolver
+  public function getCompany(): CompanyResolver
   {
     return new UniCompanyResolver(C::CMP_ID_SYS);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns the helper object for creating  named locks.
+   *
+   * @return CoreNamedLockFactory
+   */
+  public function getNamedLock(): CoreNamedLockFactory
+  {
+    return new CoreNamedLockFactory($this);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

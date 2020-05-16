@@ -11,6 +11,8 @@ build:
       - mysql -u root test < lib/ddl/0100_create_tables.sql
       - mysql -u root test < test/ddl/0300_abc_lock_named.sql
       - ./bin/stratum stratum test/etc/stratum.ini
+      - export PLAISIO_CONFIG_DIR=test
+      - ./bin/phing kernel
 
     override:
       - command: './bin/phing unit'

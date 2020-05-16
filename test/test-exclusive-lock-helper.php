@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 use Plaisio\C;
-use Plaisio\Kernel\Nub;
 use Plaisio\Lock\Test\TestKernelPlaisio;
 
 require __DIR__.'/../vendor/autoload.php';
@@ -18,7 +17,7 @@ $handle = fopen('php://stdin', 'rt');
 $read   = fgets($handle);
 
 // Acquire lock.
-Nub::$nub->createNamedLock(C::LNN_ID_NAMED_LOCK1);
+$kernel->namedLock->create(C::LNN_ID_NAMED_LOCK1);
 
 // End time.
 $time1 = time();

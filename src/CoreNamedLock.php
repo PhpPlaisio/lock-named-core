@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Lock;
 
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 use SetBased\Exception\LogicException;
 
 /**
@@ -11,7 +11,7 @@ use SetBased\Exception\LogicException;
  *
  * The names of the locks are unique with respect to the schema of the data layer and company of Plaisio.
  */
-class CoreNamedLock implements NamedLock
+class CoreNamedLock extends PlaisioObject implements NamedLock
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -36,7 +36,7 @@ class CoreNamedLock implements NamedLock
    */
   public function acquireLock(int $id): void
   {
-    Nub::$nub->DL->abcLockNamedCoreAcquireLock(Nub::$nub->companyResolver->getCmpId(), $id, static::$lockWaitTimeout);
+    $this->nub->DL->abcLockNamedCoreAcquireLock($this->nub->company->cmpId, $id, static::$lockWaitTimeout);
 
     $this->lnnId = $id;
   }
@@ -60,7 +60,7 @@ class CoreNamedLock implements NamedLock
   {
     $this->ensureHoldLock();
 
-    return Nub::$nub->DL->abcLockNamedCoreGetName($this->lnnId);
+    return $this->nub->DL->abcLockNamedCoreGetName($this->lnnId);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
