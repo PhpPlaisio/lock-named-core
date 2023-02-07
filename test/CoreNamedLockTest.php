@@ -19,7 +19,7 @@ class CoreNamedLockTest extends TestCase
    *
    * @var PlaisioKernel
    */
-  protected $kernel;
+  protected PlaisioKernel $kernel;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

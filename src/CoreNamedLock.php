@@ -21,14 +21,14 @@ class CoreNamedLock extends PlaisioObject implements NamedLock
    *
    * @var int
    */
-  public static $lockWaitTimeout = -1;
+  public static int $lockWaitTimeout = -1;
 
   /**
    * The ID of the lock.
    *
    * @var int|null
    */
-  private $lnnId;
+  private ?int $lnnId = null;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
