@@ -22,8 +22,9 @@
 <td>
 <a href="https://packagist.org/packages/plaisio/lock-named-core"><img src="https://poser.pugx.org/plaisio/lock-named-core/v/stable" alt="Latest Stable Version"/></a><br/>
 </td>
-<td><a href="https://travis-ci.org/PhpPlaisio/lock-named-core"><img src="https://travis-ci.org/PhpPlaisio/lock-named-core.svg?branch=master" alt="Build Status"/></a><br/>
-<a href="https://scrutinizer-ci.com/g/PhpPlaisio/lock-named-core/?branch=master"><img src="https://scrutinizer-ci.com/g/PhpPlaisio/lock-named-core/badges/coverage.png?b=master" alt="Code Coverage"/></a><br/>
+<td>
+<a href="https://github.com/PhpPlaisio/lock-named-core/actions/workflows/unit.yml"><img src="https://github.com/PhpPlaisio/lock-named-core/actions/workflows/unit.yml/badge.svg" alt="Build Status"/></a><br/>
+<a href="https://codecov.io/gh/PhpPlaisio/lock-named-core"><img src="https://codecov.io/gh/PhpPlaisio/lock-named-core/branch/master/graph/badge.svg" alt="Code Coverage"/></a>
 </td>
 <td>
 <a href="https://scrutinizer-ci.com/g/PhpPlaisio/lock-named-core/?branch=master"><img src="https://scrutinizer-ci.com/g/PhpPlaisio/lock-named-core/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"/></a>
