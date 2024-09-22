@@ -3,15 +3,15 @@
  *
  * @param p_lnn_id The ID of the named lock.
  *
- * @type singleton1
- *
- * @return string
+ * @type singleton1 varchar
  */
-create procedure abc_lock_named_core_get_name(in p_lnn_id @abc_lock_named_name.lnn_id%type@)
-modifies sql data
+create procedure abc_lock_named_core_get_name
+(
+  in p_lnn_id smallint(6) -- type: ABC_LOCK_NAMED_NAME.lnn_id
+)
+  modifies sql data
 begin
   select lnn_name
-  from   ABC_LOCK_NAMED_NAME
-  where  lnn_id = p_lnn_id
-  ;
+  from ABC_LOCK_NAMED_NAME
+  where lnn_id = p_lnn_id;
 end

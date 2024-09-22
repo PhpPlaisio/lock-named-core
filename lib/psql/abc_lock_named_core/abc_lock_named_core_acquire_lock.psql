@@ -3,39 +3,39 @@
  *
  * @param p_cmp_id            The ID of the company (safeguard).
  * @param p_lnn_id            The ID of the named lock.
- * @param p_lock_wait_timeout Time in seconds for waiting for a lock before giving up. I.e. the value of 
+ * @param p_lock_wait_timeout Time in seconds for waiting for a lock before giving up. I.e. the value of
  *                            innodb_lock_wait_timeout.
  *
  * @type none
  */
-create procedure abc_lock_named_core_acquire_lock(in p_cmp_id            @abc_lock_named.cmp_id%type@,
-                                                  in p_lnn_id            @abc_lock_named.lnn_id%type@,
-                                                  in p_lock_wait_timeout int)
-modifies sql data
+create procedure abc_lock_named_core_acquire_lock
+(
+  in p_cmp_id            smallint(5) unsigned, -- type: ABC_LOCK_NAMED.cmp_id
+  in p_lnn_id            smallint(6), --          type: ABC_LOCK_NAMED.lnn_id
+  in p_lock_wait_timeout int
+)
+  modifies sql data
 begin
-  declare l_lnm_id                @abc_lock_named.lnm_id%type@;
+  declare l_lnm_id smallint(5) unsigned; -- type: ABC_LOCK_NAMED.lnm_id
   declare l_old_lock_wait_timeout int;
 
   if (p_lock_wait_timeout > 0) then
-    set l_old_lock_wait_timeout    = @@innodb_lock_wait_timeout;
+    set l_old_lock_wait_timeout = @@innodb_lock_wait_timeout;
     set @@innodb_lock_wait_timeout = p_lock_wait_timeout;
   end if;
 
-  
   select lnm_id
-  into   l_lnm_id
-  from   ABC_LOCK_NAMED
-  where  cmp_id = p_cmp_id
-  and    lnn_id = p_lnn_id
-  for update
-  ;
+  into l_lnm_id
+  from ABC_LOCK_NAMED
+  where cmp_id = p_cmp_id
+    and lnn_id = p_lnn_id for
+  update;
 
   if (l_lnm_id is null) then
-    insert into ABC_LOCK_NAMED(cmp_id
-    ,                          lnn_id)
-    values(p_cmp_id
-    ,      p_lnn_id)
-    ;
+    insert into ABC_LOCK_NAMED( cmp_id
+                              , lnn_id )
+    values ( p_cmp_id
+           , p_lnn_id );
   end if;
 
   if (p_lock_wait_timeout > 0) then
